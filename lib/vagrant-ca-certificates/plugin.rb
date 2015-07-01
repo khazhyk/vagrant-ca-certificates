@@ -19,6 +19,10 @@ module VagrantPlugins
 
       action_hook(Plugin::ALL_ACTIONS) do |hook|
         require_relative 'action/install_certificates'
+        if defined?(VagrantPlugins::Omnibus::Action::InstallChef)
+          hook.after VagrantPlugins::Omnibus::Action::InstallChef, Action::InstallCertificates
+        end
+
         hook.after(Vagrant::Action::Builtin::Provision, Action::InstallCertificates)
       end
 
